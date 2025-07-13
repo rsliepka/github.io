@@ -85,9 +85,9 @@
   </style>
 </head>
 <body>
-  <h1>👋 Hi, I'm Rudy—and this is my digital playground</h1>
+  <h1>👋 Hi, I'm Rudy—broadcasting live from Tippecanoe County</h1>
 
-  <div class="weatherBanner" id="weather">Fetching Rudy’s vibe from the sky... ⛅</div>
+  <div class="weatherBanner" id="weather">Fetching Rudy’s Tippecanoe County vibe... ⛅</div>
 
   <p id="quote">"Every day is a chance to create something incredible."</p>
   <button onclick="rotateQuote()">Next Quote</button>
@@ -119,28 +119,35 @@
     }
     setInterval(rotateQuote, 5000);
 
-    // Weather fetch for Wabash, IN using OpenWeather API
-    fetch("https://api.openweathermap.org/data/2.5/weather?q=Wabash,US&units=imperial&appid=6215e823481b660e0cba462747d778b1")
+    // Weather fetch for Tippecanoe County using OpenWeather API via AllOrigins proxy
+    const proxyURL = "https://api.allorigins.win/get?url=" +
+      encodeURIComponent("https://api.openweathermap.org/data/2.5/weather?q=Tippecanoe,US&units=imperial&appid=6215e823481b660e0cba462747d778b1");
+
+    fetch(proxyURL)
       .then(response => response.json())
       .then(data => {
-        const temp = Math.round(data.main.temp);
-        const condition = data.weather[0].main;
+        const parsed = JSON.parse(data.contents);
+        const temp = Math.round(parsed.main.temp);
+        const condition = parsed.weather[0].main;
         const emoji = condition === "Rain" ? "🌧️" :
                       condition === "Clear" ? "☀️" :
                       condition === "Clouds" ? "☁️" :
                       condition === "Snow" ? "❄️" :
                       condition === "Thunderstorm" ? "⛈️" :
-                      condition === "Drizzle" ? "🌦️" :
-                      "🌈";
-        document.getElementById("weather").innerText = `Rudy’s vibe today: ${emoji} ${temp}°F and ${condition}`;
+                      condition === "Drizzle" ? "🌦️" : "🌈";
+        document.getElementById("weather").innerText =
+          `Rudy’s Tippecanoe County vibe: ${emoji} ${temp}°F and ${condition}`;
       })
       .catch(error => {
-        document.getElementById("weather").innerText = "Rudy’s vibe: could not fetch the weather 🌐";
+        document.getElementById("weather").innerText =
+          "Rudy’s vibe: weather fetch failed ⛔";
         console.error("Weather fetch error:", error);
       });
   </script>
 </body>
 </html>
+
+
 
 
 
