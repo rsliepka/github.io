@@ -54,9 +54,10 @@
     }
 
     .weatherBanner {
-      font-size: 2em;
+      font-size: 1.5em;
       margin-bottom: 30px;
       animation: pulse 1.8s infinite;
+      color: #444;
     }
 
     .signature {
@@ -86,7 +87,7 @@
 <body>
   <h1>👋 Hi, I'm Rudy—and this is my digital playground</h1>
 
-  <div class="weatherBanner">Rudy’s vibe today: ☀️🌈🚴‍♂️📚</div>
+  <div class="weatherBanner" id="weather">Fetching Rudy’s vibe from the sky... ⛅</div>
 
   <p id="quote">"Every day is a chance to create something incredible."</p>
   <button onclick="rotateQuote()">Next Quote</button>
@@ -116,12 +117,32 @@
       index = (index + 1) % quotes.length;
       document.getElementById("quote").innerText = `"${quotes[index]}"`;
     }
-
-    // Automatically rotate quotes every 5 seconds
     setInterval(rotateQuote, 5000);
+
+    // Weather fetch for Wabash, IN using OpenWeather API
+    fetch("https://api.openweathermap.org/data/2.5/weather?q=Wabash,US&units=imperial&appid=6215e823481b660e0cba462747d778b1")
+      .then(response => response.json())
+      .then(data => {
+        const temp = Math.round(data.main.temp);
+        const condition = data.weather[0].main;
+        const emoji = condition === "Rain" ? "🌧️" :
+                      condition === "Clear" ? "☀️" :
+                      condition === "Clouds" ? "☁️" :
+                      condition === "Snow" ? "❄️" :
+                      condition === "Thunderstorm" ? "⛈️" :
+                      condition === "Drizzle" ? "🌦️" :
+                      "🌈";
+        document.getElementById("weather").innerText = `Rudy’s vibe today: ${emoji} ${temp}°F and ${condition}`;
+      })
+      .catch(error => {
+        document.getElementById("weather").innerText = "Rudy’s vibe: could not fetch the weather 🌐";
+        console.error("Weather fetch error:", error);
+      });
   </script>
 </body>
 </html>
+
+
 
 
 
