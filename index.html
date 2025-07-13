@@ -20,9 +20,35 @@
       margin-bottom: 20px;
     }
 
-    p {
+    p#quote {
       color: #006064;
       font-size: 1.3em;
+      margin-bottom: 40px;
+    }
+
+    button {
+      padding: 15px 30px;
+      font-size: 1.1em;
+      background-color: #4a148c;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #6a1b9a;
+    }
+
+    .emoji {
+      font-size: 2em;
+      margin: 10px;
+      transition: transform 0.4s ease-in-out;
+    }
+
+    .emoji:hover {
+      transform: scale(1.3);
     }
 
     @keyframes fadeIn {
@@ -33,9 +59,32 @@
 </head>
 <body>
   <h1>Hello, world! 👋</h1>
-  <p>This is Rudy’s stylish and animated website hosted on GitHub Pages.</p>
+  <p id="quote">"Every day is a chance to create something incredible."</p>
+  <button onclick="rotateQuote()">Next Quote</button>
+  <div style="margin-top:30px;">
+    <span class="emoji">✨</span>
+    <span class="emoji">🔥</span>
+    <span class="emoji">🚀</span>
+  </div>
+
+  <script>
+    const quotes = [
+      "Every day is a chance to create something incredible.",
+      "Keep going. You've got this.",
+      "Code is your canvas—paint boldly!",
+      "Success is built one commit at a time.",
+      "Progress, not perfection."
+    ];
+    let index = 0;
+    function rotateQuote() {
+      index = (index + 1) % quotes.length;
+      document.getElementById("quote").innerText = `"${quotes[index]}"`;
+    }
+  </script>
 </body>
 </html>
+
+
 
 
 
