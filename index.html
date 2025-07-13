@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <title>Welcome to Rudy's Digital Playground</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <style>
     body {
       font-family: 'Roboto', sans-serif;
@@ -17,11 +19,18 @@
 
     h1 {
       color: #4a148c;
-      font-size: 3em;
+      font-size: 2.8em;
       margin-bottom: 20px;
     }
 
-    p#quote {
+    #weather, #clock {
+      font-size: 1.5em;
+      margin: 10px 0 30px;
+      animation: pulse 1.8s infinite;
+      color: #444;
+    }
+
+    #quote {
       color: #006064;
       font-size: 1.4em;
       margin-bottom: 40px;
@@ -53,11 +62,10 @@
       transform: scale(1.3);
     }
 
-    .weatherBanner {
-      font-size: 1.5em;
-      margin-bottom: 30px;
-      animation: pulse 1.8s infinite;
-      color: #444;
+    #map {
+      height: 300px;
+      margin-top: 40px;
+      border-radius: 10px;
     }
 
     .signature {
@@ -87,7 +95,8 @@
 <body>
   <h1>👋 Hi, I'm Rudy—broadcasting live from Tippecanoe County</h1>
 
-  <div class="weatherBanner" id="weather">Fetching Rudy’s Tippecanoe County vibe... ⛅</div>
+  <div id="weather">Fetching Rudy’s Tippecanoe County vibe... ⛅</div>
+  <div id="clock">Loading time... ⏳</div>
 
   <p id="quote">"Every day is a chance to create something incredible."</p>
   <button onclick="rotateQuote()">Next Quote</button>
@@ -99,6 +108,8 @@
     <span class="emoji">💻</span>
     <span class="emoji">📈</span>
   </div>
+
+  <div id="map"></div>
 
   <div class="signature">Built by Rudy 💡</div>
 
@@ -119,7 +130,21 @@
     }
     setInterval(rotateQuote, 5000);
 
-    // Weather fetch for Tippecanoe County using OpenWeather API via AllOrigins proxy
+    function updateClock() {
+      const now = new Date();
+      const timeString = now.toLocaleString('en-US', {
+        weekday: 'long',
+        hour: 'numeric',
+        minute: 'numeric',
+        second: 'numeric',
+        hour12: true
+      });
+      document.getElementById('clock').innerText = `⏰ ${timeString}`;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Weather fetch with proxy for Tippecanoe County
     const proxyURL = "https://api.allorigins.win/get?url=" +
       encodeURIComponent("https://api.openweathermap.org/data/2.5/weather?q=Tippecanoe,US&units=imperial&appid=6215e823481b660e0cba462747d778b1");
 
@@ -143,9 +168,20 @@
           "Rudy’s vibe: weather fetch failed ⛔";
         console.error("Weather fetch error:", error);
       });
+
+    // Leaflet map centered on Tippecanoe County
+    const map = L.map('map').setView([40.417, -86.875], 10);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+    L.marker([40.417, -86.875]).addTo(map)
+      .bindPopup('📍 Tippecanoe County')
+      .openPopup();
   </script>
 </body>
 </html>
+
+
 
 
 
