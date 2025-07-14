@@ -26,7 +26,8 @@
 
   <section>
     <h2>💬 Motivational Quote</h2>
-    <div id="quote">“Code is like humor. When you have to explain it, it’s bad.”</div>
+    <div id="quote">“Code is like humor. When you have to explain it, it’s bad.”</div><br>
+    <button onclick="changeQuote()">🔄 New Quote</button>
   </section>
 
   <section>
@@ -39,7 +40,7 @@
   </footer>
 
   <script>
-    // 🕒 Tippecanoe Time (ET)
+    // 🕒 Local Time (ET)
     function updateClock() {
       const now = new Date();
       const formatter = new Intl.DateTimeFormat('en-US', {
@@ -55,7 +56,7 @@
     setInterval(updateClock, 1000);
     updateClock();
 
-    // 🌦️ Weather via OpenWeather (proxy)
+    // 🌦️ Weather
     const proxyURL = "https://api.allorigins.win/get?url=" +
       encodeURIComponent("https://api.openweathermap.org/data/2.5/weather?q=Tippecanoe,US&units=imperial&appid=6215e823481b660e0cba462747d778b1");
 
@@ -77,7 +78,25 @@
         console.error("Weather error:", error);
       });
 
-    // 🗺️ Tippecanoe County Map
+    // 💬 Quote
+    const quotes = [
+      "“Code is like humor. When you have to explain it, it’s bad.”",
+      "“Simplicity is the soul of efficiency.”",
+      "“Programs must be written for people to read.”",
+      "“The best way to get a project done faster is to start sooner.”",
+      "“Experience is the name everyone gives to their mistakes.”"
+    ];
+
+    function changeQuote() {
+      const current = document.getElementById("quote").innerText;
+      let newQuote;
+      do {
+        newQuote = quotes[Math.floor(Math.random() * quotes.length)];
+      } while (newQuote === current);
+      document.getElementById("quote").innerText = newQuote;
+    }
+
+    // 🗺️ Map
     const map = L.map('map').setView([40.417, -86.875], 10);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© OpenStreetMap contributors'
@@ -88,6 +107,8 @@
   </script>
 </body>
 </html>
+
+
 
 
 
