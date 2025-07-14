@@ -5,151 +5,57 @@
   <title>Welcome to Rudy's Digital Playground</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <link rel="stylesheet" href="https://rsliepka.github.io/style.css">
-  <style>
-    body {
-      font-family: 'Roboto', sans-serif;
-      margin: 0;
-      padding: 60px;
-      text-align: center;
-      animation: fadeIn 2s ease-in, gradientShift 15s infinite linear;
-      background: linear-gradient(-45deg, #e0f7fa, #f8bbd0, #ffecb3, #c5cae9);
-      background-size: 400% 400%;
-    }
-
-    h1 {
-      color: #4a148c;
-      font-size: 2.8em;
-      margin-bottom: 20px;
-    }
-
-    #weather, #clock {
-      font-size: 1.5em;
-      margin: 10px 0 30px;
-      animation: pulse 1.8s infinite;
-      color: #444;
-    }
-
-    #quote {
-      color: #006064;
-      font-size: 1.4em;
-      margin-bottom: 40px;
-    }
-
-    button {
-      padding: 15px 30px;
-      font-size: 1.1em;
-      background-color: #4a148c;
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-
-    button:hover {
-      background-color: #6a1b9a;
-    }
-
-    .emoji {
-      font-size: 2em;
-      margin: 10px;
-      transition: transform 0.4s ease-in-out;
-      display: inline-block;
-    }
-
-    .emoji:hover {
-      transform: scale(1.3);
-    }
-
-    #map {
-      height: 300px;
-      margin-top: 40px;
-      border-radius: 10px;
-    }
-
-    .signature {
-      margin-top: 60px;
-      font-size: 0.9em;
-      color: #888;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes gradientShift {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.08); }
-      100% { transform: scale(1); }
-    }
-  </style>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 <body>
-  <h1>👋 Hi, I'm Rudy—broadcasting live from Tippecanoe County</h1>
+  <h1>🏠 Rudy's Digital Playground</h1>
 
-  <div id="weather">Fetching Rudy’s Tippecanoe County vibe... ⛅</div>
-  <div id="clock">Loading Tippecanoe County time... ⏳</div>
+  <section>
+    <div id="clock">⏳ Loading local time...</div>
+    <div id="weather">🌦️ Fetching weather data...</div>
+  </section>
 
-  <p id="quote">"Every day is a chance to create something incredible."</p>
-  <button onclick="rotateQuote()">Next Quote</button>
+  <section>
+    <h2>🌟 Featured Project</h2>
+    <p>Discover what's happening in Tippecanoe County with Rudy's curated dashboard.</p>
+    <a href="https://rsliepka.github.io/local-vibes-dashboard/" class="button-link" target="_blank">
+      📊 Explore the Local Vibes Dashboard
+    </a>
+  </section>
 
-  <div style="margin-top:30px;">
-    <span class="emoji">✨</span>
-    <span class="emoji">🔥</span>
-    <span class="emoji">🚀</span>
-    <span class="emoji">💻</span>
-    <span class="emoji">📈</span>
-  </div>
+  <section>
+    <h2>💬 Motivational Quote</h2>
+    <div id="quote">“Code is like humor. When you have to explain it, it’s bad.”</div>
+  </section>
 
-  <div id="map"></div>
+  <section>
+    <h2>🗺️ Map of Tippecanoe County</h2>
+    <div id="map"></div>
+  </section>
 
-  <div class="signature">Built by Rudy 💡</div>
+  <footer class="signature">
+    Built with 💻 and local pride by Rudy
+  </footer>
 
   <script>
-    // Rotate motivational quotes
-    const quotes = [
-      "Every day is a chance to create something incredible.",
-      "Keep going. You've got this.",
-      "Code is your canvas—paint boldly!",
-      "Success is built one commit at a time.",
-      "Progress, not perfection.",
-      "The magic’s in the persistence.",
-      "Creativity lives in every keystroke."
-    ];
-    let index = 0;
-    function rotateQuote() {
-      index = (index + 1) % quotes.length;
-      document.getElementById("quote").innerText = `"${quotes[index]}"`;
-    }
-    setInterval(rotateQuote, 5000);
-
-    // Tippecanoe County Time (ET)
+    // 🕒 Tippecanoe Time (ET)
     function updateClock() {
       const now = new Date();
       const formatter = new Intl.DateTimeFormat('en-US', {
         timeZone: 'America/Indiana/Indianapolis',
-        weekday: 'long',
         hour: 'numeric',
         minute: 'numeric',
         second: 'numeric',
         hour12: true
       });
-      const timeString = formatter.format(now);
-      document.getElementById('clock').innerText = `⏰ Tippecanoe County time (ET): ${timeString}`;
+      document.getElementById('clock').innerText =
+        `⏰ Local time in Tippecanoe County: ${formatter.format(now)}`;
     }
     setInterval(updateClock, 1000);
     updateClock();
 
-    // Weather fetch with proxy for Tippecanoe County
+    // 🌦️ Weather via OpenWeather (proxy)
     const proxyURL = "https://api.allorigins.win/get?url=" +
       encodeURIComponent("https://api.openweathermap.org/data/2.5/weather?q=Tippecanoe,US&units=imperial&appid=6215e823481b660e0cba462747d778b1");
 
@@ -159,22 +65,19 @@
         const parsed = JSON.parse(data.contents);
         const temp = Math.round(parsed.main.temp);
         const condition = parsed.weather[0].main;
-        const emoji = condition === "Rain" ? "🌧️" :
-                      condition === "Clear" ? "☀️" :
-                      condition === "Clouds" ? "☁️" :
-                      condition === "Snow" ? "❄️" :
-                      condition === "Thunderstorm" ? "⛈️" :
-                      condition === "Drizzle" ? "🌦️" : "🌈";
+        const emoji = {
+          Rain: "🌧️", Clear: "☀️", Clouds: "☁️",
+          Snow: "❄️", Thunderstorm: "⛈️", Drizzle: "🌦️"
+        }[condition] || "🌈";
         document.getElementById("weather").innerText =
-          `Rudy’s Tippecanoe County vibe: ${emoji} ${temp}°F and ${condition}`;
+          `🌦️ Tippecanoe Weather: ${emoji} ${temp}°F and ${condition}`;
       })
       .catch(error => {
-        document.getElementById("weather").innerText =
-          "Rudy’s vibe: weather fetch failed ⛔";
-        console.error("Weather fetch error:", error);
+        document.getElementById("weather").innerText = "Weather fetch failed ❌";
+        console.error("Weather error:", error);
       });
 
-    // Leaflet map centered on Tippecanoe County
+    // 🗺️ Tippecanoe County Map
     const map = L.map('map').setView([40.417, -86.875], 10);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© OpenStreetMap contributors'
@@ -185,6 +88,8 @@
   </script>
 </body>
 </html>
+
+
 
 
 
