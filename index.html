@@ -30,10 +30,11 @@
     <button onclick="changeQuote()">🔄 New Quote</button>
   </section>
 
-  <section>
-    <h2>🗺️ Map of Tippecanoe County</h2>
-    <div id="map"></div>
-  </section>
+<section>
+  <h2>🧠 Tippecanoe Tidbit</h2>
+  <div id="fact">“The phrase 'Tippecanoe and Tyler Too' was a campaign slogan from 1840, celebrating William Henry Harrison's victory in the Battle of Tippecanoe.”</div><br>
+  <button onclick="newFact()">🔄 Show Another Fact</button>
+</section>
 
   <footer class="signature">
     Built with 💻 and local pride by Rudy
@@ -96,14 +97,25 @@
       document.getElementById("quote").innerText = newQuote;
     }
 
-    // 🗺️ Map
-    const map = L.map('map').setView([40.417, -86.875], 10);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '© OpenStreetMap contributors'
-    }).addTo(map);
-    L.marker([40.417, -86.875]).addTo(map)
-      .bindPopup('📍 Tippecanoe County')
-      .openPopup();
+// 🧠 Random Tippecanoe Trivia
+const facts = [
+  "“The phrase 'Tippecanoe and Tyler Too' was a campaign slogan from 1840, celebrating William Henry Harrison's victory in the Battle of Tippecanoe.”",
+  "“Lafayette was once a key stop along the Wabash and Erie Canal, making it one of Indiana’s most prosperous trade hubs in the mid-1800s.”",
+  "“The name 'Tippecanoe' comes from the Native American word for 'buffalo fish.'”",
+  "“Purdue University was founded in 1869 and originally focused on agriculture and engineering.”",
+  "“John Tipp, for whom Tippecanoe County is possibly named, was never officially confirmed in the records—but the legend lives on!”"
+];
+
+function newFact() {
+  const current = document.getElementById("fact").innerText;
+  let newTrivia;
+  do {
+    newTrivia = facts[Math.floor(Math.random() * facts.length)];
+  } while (newTrivia === current);
+  document.getElementById("fact").innerText = newTrivia;
+}
+
+
   </script>
 </body>
 </html>
