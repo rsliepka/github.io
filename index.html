@@ -98,27 +98,6 @@
   <div id="weather">Fetching Rudy’s Tippecanoe County vibe... ⛅</div>
   <div id="clock">Loading Tippecanoe County time... ⏳</div>
 
-<script>
-  function updateClock() {
-    const now = new Date();
-    const formatter = new Intl.DateTimeFormat('en-US', {
-      timeZone: 'America/Indiana/Indianapolis',
-      weekday: 'long',
-      hour: 'numeric',
-      minute: 'numeric',
-      second: 'numeric',
-      hour12: true
-    });
-    const timeString = formatter.format(now);
-    document.getElementById('clock').innerText = `⏰ Tippecanoe County time (ET): ${timeString}`;
-  }
-
-  setInterval(updateClock, 1000);
-  updateClock();
-</script>
-
-
-
   <p id="quote">"Every day is a chance to create something incredible."</p>
   <button onclick="rotateQuote()">Next Quote</button>
 
@@ -135,6 +114,7 @@
   <div class="signature">Built by Rudy 💡</div>
 
   <script>
+    // Rotate motivational quotes
     const quotes = [
       "Every day is a chance to create something incredible.",
       "Keep going. You've got this.",
@@ -151,16 +131,19 @@
     }
     setInterval(rotateQuote, 5000);
 
+    // Tippecanoe County Time (ET)
     function updateClock() {
       const now = new Date();
-      const timeString = now.toLocaleString('en-US', {
+      const formatter = new Intl.DateTimeFormat('en-US', {
+        timeZone: 'America/Indiana/Indianapolis',
         weekday: 'long',
         hour: 'numeric',
         minute: 'numeric',
         second: 'numeric',
         hour12: true
       });
-      document.getElementById('clock').innerText = `⏰ ${timeString}`;
+      const timeString = formatter.format(now);
+      document.getElementById('clock').innerText = `⏰ Tippecanoe County time (ET): ${timeString}`;
     }
     setInterval(updateClock, 1000);
     updateClock();
@@ -201,6 +184,8 @@
   </script>
 </body>
 </html>
+
+
 
 
 
